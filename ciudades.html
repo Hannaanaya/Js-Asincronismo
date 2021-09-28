@@ -10,25 +10,35 @@
   <h1>Asincronismo/Nombres de ciudades</h1>
 
 <script>
-  document.addEventListener('DOMContentLoaded', cityAPI);
 
-  async function cityAPI () {
+  async function cityAPI() {
     let URL = 'http://localhost:53000/citys';
 
   try {
     const respuesta = await fetch(URL);
     const resultado = await respuesta.json();
-    imprimirCiudad(resultado);
+    imprimirCiudad( resultado );
+
   } catch(error) {
     console.log('Ha ocurrido un error', error);
   }
 }
 
-function imprimirCiudad(resultado) {
+cityAPI();
+
+function imprimirCiudad( resultado ) {
   resultado.forEach(res => {
-    const {title} = res;
-  console.log(title);  
-})
+    const { title, woeid } = res;
+
+    fetch(`http://localhost:53000/citys/${woeid}`)
+    .then( response => response.json())
+    // .then( result => nivelDeHumedad( title, result.consolidated_weather[0].humidity ));
+    .then( result => nivelDeHumedad( title, result.latt_long ));
+  })
+}
+
+function nivelDeHumedad(ciudad, humedity) {
+  console.log(`Ciudad: ${ciudad} - Humedad: %${humedity}`);
 }
 
 </script>

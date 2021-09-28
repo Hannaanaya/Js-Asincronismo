@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Asincronismo</title>
+</head>
+<body>
+  <h1>Asincronismo/Nombres de ciudades</h1>
+
+<script>
+  document.addEventListener('DOMContentLoaded', cityAPI);
+
+  async function cityAPI () {
+    let URL = 'http://localhost:53000/citys';
+
+  try {
+    const respuesta = await fetch(URL);
+    const resultado = await respuesta.json();
+    imprimirCiudad(resultado);
+  } catch(error) {
+    console.log('Ha ocurrido un error', error);
+  }
+}
+
+function imprimirCiudad(resultado) {
+  resultado.forEach(res => {
+    const {title} = res;
+  console.log(title);  
+})
+}
+
+</script>
+</body>
+</html>
